@@ -149,8 +149,8 @@
         </div>
 
     </div>
-    <script src="./lib/jquery-1.12.4.js"></script>
     <script src="./lib/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let app = new Vue({
             el: '#app',
@@ -166,33 +166,30 @@
                         isMe: true
                     });
                     console.log(this.msg);
-                    $.ajax({
+                    let data = new URLSearchParams();                    
+                    data.append('key','c7d7c502de47492fba4de14b51bb9da0');  
+                    data.append('info',this.inputVlaue);                  
+                    axios({
                         url: 'http://www.tuling123.com/openapi/api',
-                        type: 'post',
-                        data: {
-                            key: 'c7d7c502de47492fba4de14b51bb9da0',
-                            info: this.inputVlaue
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        success: (obj)=>{ 
-                            // console.log(obj);
-                            
-                            this.msg.push({
-                                text: obj.text,
-                                isMe: false
+                        data
+                    }).then(res=>{
+                        // console.log(res);
+                        this.msg.push({
+                            text: res.data.text,
+                            isMe: false
+                        });
+
+                        setTimeout(() => {
+                            document.querySelectorAll('.container li').forEach(ele=>{
+                                this.scrollTop += ele.offsetHeight;
                             });
-
-                            setTimeout(()=>{
-                                $('.container li').each((index,ele)=>{
-                                    console.log(ele);
-                                    
-                                    this.scrollTop += ele.offsetHeight;
-                                });
-
-                                $('.container')[0].scrollTop = this.scrollTop;
-                                },100)
-                         }
-
-                    });
+                            document.querySelector('.container').scrollTop = this.scrollTop;
+                        }, 100);
+                    });               
                     this.inputVlaue = '';
                 },
             }
