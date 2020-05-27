@@ -150,7 +150,7 @@
             container.innerHTML+='<li class="user"><p>'+msg.value+'</p><span class="user-icon"></span></li>';
 
             var xhr=new XMLHttpRequest();
-            xhr.open('post','http://www.tuling123.com/openapi/api');
+            xhr.open('post','https://www.tuling123.com/openapi/api');
             xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
             xhr.send('key=c7d7c502de47492fba4de14b51bb9da0&info='+msg.value);
             xhr.onreadystatechange=function(){
